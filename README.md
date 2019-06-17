@@ -2,6 +2,17 @@
 
 In this repository, we implements - Robust Stabilizing Leader Election Algorithm.
 
+Abstract (from the article):
+We mix two approaches of the fault-tolerance: robustness
+and stabilization. Using these approaches, we propose leader election algorithms that tolerate both transient and crash failures. Our goal is to
+show the implementability of the robust self- and/or pseudo- stabilizing
+leader election in various systems with weak reliability and synchrony
+assumptions. We try to propose, when it is possible, communicationefficient implementations. Also, we exhibit some assumptions required
+to obtain robust stabilizing leader election algorithms. Our results show
+that the gap between robustness and stabilizing robustness is not really
+significant when we consider fix-point problems such as leader election.
+
+
 In order to use this library and run the leader election algorithm, follow these instructions:
 
 1. Install go: Go to https://golang.org/dl/ and install Go on your computer.<br>
