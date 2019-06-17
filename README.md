@@ -1,6 +1,6 @@
-# final_project
+# Robust Stabilizing Leader Election Algorithm
 
-In this repository, we implements - Robust Stabilizing Leader Election algorithm.
+In this repository, we implements - Robust Stabilizing Leader Election Algorithm.
 
 In order to use this library and run the leader election algorithm, follow these instructions:
 
