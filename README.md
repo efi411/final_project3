@@ -9,8 +9,7 @@ Our goal is to show the implementability of the robust self- and/or pseudo- stab
 We try to propose, when it is possible, communicationefficient implementations.<br>
 Also, we exhibit some assumptions required to obtain robust stabilizing leader election algorithms.<br>
 Our results show that the gap between robustness and stabilizing robustness is not really significant when we consider fix-point problems such as leader election.<br>
-
-
+<br><br>
 In order to use this library and run the leader election algorithm, follow these instructions:
 
 1. Install go: Go to https://golang.org/dl/ and install Go on your computer.<br>
