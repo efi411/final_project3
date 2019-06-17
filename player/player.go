@@ -69,11 +69,8 @@ func (e *Player) SetNumberOfNodes(newSum int) {
 func (e Player) SendMessagesToAllPlayers(msg string) {
 	//countLostMessages := 0
 	for _, element := range e.otherPlayersChannels {
-		if err := e.sendMessage(element, msg); err != nil {
-			//countLostMessages++
-		}
+		e.sendMessage(element, msg)
 	}
-	//return countLostMessages
 }
 
 //LeaderAlgo - execute the second algorithm
@@ -139,11 +136,8 @@ func (e Player) LeaderAlgo(alfa int, beta int) int {
 	return Leader
 }
 
-func (e Player) sendMessage(channel cha.Channel, msg string) error {
-	if err := channel.InsertMessage(msg, e.ch.GetID()); err != nil {
-		return err
-	}
-	return nil
+func (e Player) sendMessage(channel cha.Channel, msg string) {
+	channel.InsertMessage(msg, e.ch.GetID())
 }
 
 func (e Player) startRound(s int, len int) {

@@ -30,7 +30,7 @@ func GetInstance() *Manager {
 //-----------Public functions-----------
 
 //StartGame - Starts the game
-func (m Manager) StartGame(numOfPlayers int, probability float64) error {
+func (m Manager) StartGame(numOfPlayers int, crash int) error {
 
 	m.printToConsole("-----------Starts the game...-----------")
 	m.printToConsole("Adding players...")
@@ -40,7 +40,7 @@ func (m Manager) StartGame(numOfPlayers int, probability float64) error {
 		//round <- 0
 		alives := make([]int, numOfPlayers)
 		starts := make([]int, numOfPlayers)
-		channel, _ := cha.New(probability, i, "none", starts, alives, i)
+		channel, _ := cha.New(i, starts, alives, i)
 		addChannel(channel)
 	}
 	//Create players
@@ -60,7 +60,7 @@ func (m Manager) StartGame(numOfPlayers int, probability float64) error {
 		go func(e p.Player) {
 			defer wg.Done()
 			fmt.Printf("Player %s runs algorithm\n", e.GetUsername())
-			leader := e.LeaderAlgo(4, 1)
+			leader := e.LeaderAlgo(4, crash)
 			m.printToConsole(fmt.Sprintf("leader id: %d", leader))
 		}(element)
 	}
