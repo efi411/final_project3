@@ -1,13 +1,13 @@
 # final_project
 
 In this repository, we implements - Robust Stabilizing Leader Election algorithm.
-1. A manager creates players with a random number for each player (doesn't have to be uniqe).
-2. The players send messages with their numbers to one another throgh channels.
-3. After they get all the messages, they summerize the numbers and print the result.
 
-Each time, the probability of successful recieving messages by the other players is random.
-We expect the results to not always be equal. If the probability is low, we expect many messages to be lost and if its high, we expect fewer messages to be lost.
+In order to use this library and run the leader election algorithm, follow these instructions:
 
+1. Install go: Go to https://golang.org/dl/ and install Go on your computer.
+*You can learn more about Golang in this link - https://golang.org/doc/install*
+2. Install all the dependencies of the library: Run go get github.com/efi411/final_project3/
+3. Run the algorithm: Open ui/index.html file -> Choose if you eant to have a crash or not and the number of palyers in the current run and click on "Find the leader". The results will appear on the screen.
 
 
 Code testing:<br>
