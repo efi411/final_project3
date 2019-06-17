@@ -3,9 +3,11 @@
 In this repository, we implements - Robust Stabilizing Leader Election Algorithm.
 
 Abstract (from the article):<br>
-We mix two approaches of the fault-tolerance: robustness and stabilization. Using these approaches, we propose leader election algorithms that tolerate both transient and crash failures.<br>
+We mix two approaches of the fault-tolerance: robustness and stabilization.<br>
+Using these approaches, we propose leader election algorithms that tolerate both transient and crash failures.<br>
 Our goal is to show the implementability of the robust self- and/or pseudo- stabilizing leader election in various systems with weak reliability and synchrony assumptions.<br>
-We try to propose, when it is possible, communicationefficient implementations. Also, we exhibit some assumptions required to obtain robust stabilizing leader election algorithms.<br>
+We try to propose, when it is possible, communicationefficient implementations.<br>
+Also, we exhibit some assumptions required to obtain robust stabilizing leader election algorithms.<br>
 Our results show that the gap between robustness and stabilizing robustness is not really significant when we consider fix-point problems such as leader election.<br>
 
 
