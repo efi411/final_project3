@@ -3,8 +3,8 @@ package manager
 import (
 	cha "final_project3/channel"
 	p "final_project3/player"
+	r "final_project3/resultStrings"
 	"fmt"
-	"math/rand"
 	"strconv"
 	"sync"
 )
@@ -31,34 +31,35 @@ func GetInstance() *Manager {
 //-----------Public functions-----------
 
 //StartGame - Starts the game
-func (m Manager) StartGame(numOfPlayers int, probability float64) error {
+func (m Manager) StartGame(numOfPlayers int, crash int, resStr *r.ResultStrings) error {
 
-	m.printToConsole("-----------Starts the game...-----------")
+	m.printToConsole("-----------Starting game-----------")
 	m.printToConsole("Adding players...")
 	//Create channels
 	for i := 0; i < numOfPlayers; i++ {
-		channel, _ := cha.New(probability, make(chan int, numOfPlayers-1))
+		alives := make([]int, numOfPlayers)
+		starts := make([]int, numOfPlayers)
+		channel, _ := cha.New(i, starts, alives, i)
 		addChannel(channel)
 	}
 	//Create players
 	for i := 0; i < numOfPlayers; i++ {
-		e, _ := p.New(fmt.Sprintf("%s%d", "player", i), randomNumber(), instance.channels[i], getChannelsListWithoutIndex(i))
+		e, _ := p.New(fmt.Sprintf("%s%d", "player", i), i, instance.channels[i], getChannelsListWithoutIndex(i), instance.channels, numOfPlayers)
 		addPlayer(e)
 	}
-	m.printToConsole("The players in the currnt game:\n" + m.getPlayersList())
-	//Exchange messages between players
-	m.printToConsole("Exchange messages...")
-	for i := 0; i < numOfPlayers; i++ {
-		countLostMessages := instance.players[i].SendMessagesToAllPlayers()
-		m.printToConsole(fmt.Sprintf("Username: %s, Amount of lost messages: %d", instance.players[i].GetUsername(), countLostMessages))
+
+	var wg sync.WaitGroup
+	wg.Add(numOfPlayers)
+	for _, element := range instance.players {
+		go func(e p.Player, resultStr *r.ResultStrings) {
+			defer wg.Done()
+			leader := e.LeaderAlgo(4, crash, resultStr)
+			resultStr.AddLeader(strconv.Itoa(leader))
+		}(element, resStr)
 	}
-	//Print sums
-	m.printToConsole("Print sums...")
-	for i := 0; i < numOfPlayers; i++ {
-		sum := instance.players[i].GetSum()
-		m.printToConsole(fmt.Sprintf("Username: %s, Sum: %d", instance.players[i].GetUsername(), sum))
-	}
-	m.printToConsole("-----------Exiting game...-----------")
+	wg.Wait()
+
+	m.printToConsole("-----------Exiting game-----------")
 	return nil
 }
 
@@ -72,11 +73,6 @@ func addPlayer(player p.Player) {
 //addChannel - Add a channel to the channels list
 func addChannel(ch cha.Channel) {
 	instance.channels = append(instance.channels, ch)
-}
-
-//randomNumber - Create and returns a random number
-func randomNumber() int {
-	return rand.Intn(100) + 1
 }
 
 //returns the channels list without a certain index

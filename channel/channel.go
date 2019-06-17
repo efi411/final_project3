@@ -2,53 +2,70 @@ package channel
 
 import (
 	"fmt"
-	"math/rand"
 )
 
 //Channel - Channel in the game
 type Channel struct {
-	probability float64
-	ch          chan int
+	id       int
+	startMsg []int
+	aliveMsg []int
+	round    int
 }
 
 //ChannelsProbNotGoodErrMsg - Error message
-const ChannelsProbNotGoodErrMsg = "Channels propbability must be between (0,1]"
+const ChannelsProbNotGoodErrMsg = "the channel or the round is invalid"
 
 //MessageLostErrMsg - Error message
 const MessageLostErrMsg = "The message got lost in the way"
 
 //New - Channel constructor
-func New(probability float64, channel chan int) (Channel, error) {
-	if probability > 1 || probability <= 0 {
+func New(id int, startMsg []int, aliveMsg []int,
+	round int) (Channel, error) {
+	if id < 0 || round < 0 {
 		return Channel{}, fmt.Errorf("%s", ChannelsProbNotGoodErrMsg)
 	}
-	c := Channel{probability, channel}
+	c := Channel{id, startMsg, aliveMsg, round}
 	return c, nil
 }
 
 //-----------Public functions-----------
 
-//GetChannel - return the channel of the user
-func (c Channel) GetChannel() chan int {
-	return c.ch
+//GetRound - return the channel of the user
+func (c Channel) GetRound() int {
+	return c.round
 }
 
-//InsertNumber - Insert number from the player to the channel
-func (c Channel) InsertNumber(number int) error {
-	randomNumber := rand.Float64()
-	if randomNumber < c.probability {
-		c.ch <- number
-		return nil
-	}
-	return fmt.Errorf("%s", MessageLostErrMsg)
+//GetID - return channel id
+func (c Channel) GetID() int {
+	return c.id
 }
 
-//GetSum - get all the numbers from the channel, summerizes and prints it
-func (c Channel) GetSum() int {
-	close(c.ch)
-	sum := 0
-	for elem := range c.ch {
-		sum += elem
+//SetRound - setting channel round
+func (c *Channel) SetRound(i int) {
+	c.round = i
+}
+
+//GetStartMsg - return the array of start messages
+func (c Channel) GetStartMsg() []int {
+	return c.startMsg
+}
+
+//GetAliveMsg - return the array of alive messages
+func (c Channel) GetAliveMsg() []int {
+	return c.aliveMsg
+}
+
+//InsertMessage - insert the start or alive message to array
+func (c Channel) InsertMessage(msg string, fromCh int) {
+	if msg == "ALIVE" {
+		c.aliveMsg[fromCh] = 1
+	} else {
+		c.startMsg[fromCh] = 1
 	}
-	return sum
+}
+
+//InitialMessages - initialize the array of messages
+func (c Channel) InitialMessages(id int) {
+	c.aliveMsg[id] = 0
+	c.startMsg[id] = 0
 }
