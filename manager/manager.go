@@ -3,6 +3,7 @@ package manager
 import (
 	cha "final_project3/channel"
 	p "final_project3/player"
+	r "final_project3/resultStrings"
 	"fmt"
 	"strconv"
 	"sync"
@@ -30,14 +31,12 @@ func GetInstance() *Manager {
 //-----------Public functions-----------
 
 //StartGame - Starts the game
-func (m Manager) StartGame(numOfPlayers int, crash int) error {
+func (m Manager) StartGame(numOfPlayers int, crash int, resStr *r.ResultStrings) error {
 
-	m.printToConsole("-----------Starts the game...-----------")
+	m.printToConsole("-----------Starting game-----------")
 	m.printToConsole("Adding players...")
 	//Create channels
 	for i := 0; i < numOfPlayers; i++ {
-		//round := make(chan int, 100)
-		//round <- 0
 		alives := make([]int, numOfPlayers)
 		starts := make([]int, numOfPlayers)
 		channel, _ := cha.New(i, starts, alives, i)
@@ -49,24 +48,18 @@ func (m Manager) StartGame(numOfPlayers int, crash int) error {
 		addPlayer(e)
 	}
 
-	for _, element := range instance.players {
-		fmt.Printf("Player %s has been created\n", element.GetUsername())
-	}
-
 	var wg sync.WaitGroup
 	wg.Add(numOfPlayers)
-	fmt.Println("Running for loop…")
 	for _, element := range instance.players {
-		go func(e p.Player) {
+		go func(e p.Player, resultStr *r.ResultStrings) {
 			defer wg.Done()
-			fmt.Printf("Player %s runs algorithm\n", e.GetUsername())
-			leader := e.LeaderAlgo(4, crash)
-			m.printToConsole(fmt.Sprintf("leader id: %d", leader))
-		}(element)
+			leader := e.LeaderAlgo(4, crash, resultStr)
+			resultStr.AddLeader(strconv.Itoa(leader))
+		}(element, resStr)
 	}
 	wg.Wait()
 
-	m.printToConsole("-----------Exiting game...-----------")
+	m.printToConsole("-----------Exiting game-----------")
 	return nil
 }
 
