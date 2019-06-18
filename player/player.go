@@ -19,7 +19,19 @@ type Player struct {
 }
 
 //ChannelsListNotGoodErrMsg - Error message
-const ChannelsListNotGoodErrMsg = "Channels propbability must be between (0,1]"
+const ChannelsListNotGoodErrMsg = "Channels list is not good"
+
+//NumberOfRounds - The number of rounds for the players loop
+const NumberOfRounds = 6
+
+//DefaultLeader - The leader that is being selected when there is a crash
+const DefaultLeader = -1
+
+//AliveMsg - Alive string message
+const AliveMsg = "ALIVE"
+
+//StartMsg - Start string message
+const StartMsg = "START"
 
 //New - Player constructor
 func New(username string, number int, userChannel cha.Channel, channelsList []cha.Channel, allChan []cha.Channel, nodes int) (Player, error) {
@@ -64,7 +76,6 @@ func (e *Player) SetNumberOfNodes(newSum int) {
 
 //SendMessagesToAllPlayers - Sends the random number of the user to all the others players channels
 func (e Player) SendMessagesToAllPlayers(msg string, resultStr *r.ResultStrings) {
-	//countLostMessages := 0
 	for _, element := range e.otherPlayersChannels {
 		e.sendMessage(element, msg)
 		// Add message to the result object
@@ -74,8 +85,8 @@ func (e Player) SendMessagesToAllPlayers(msg string, resultStr *r.ResultStrings)
 
 //LeaderAlgo - execute the second algorithm
 func (e Player) LeaderAlgo(alfa int, beta int, resultStr *r.ResultStrings) int {
-	var Leader = -1
-	for i := 0; i < 6; i++ {
+	var Leader = DefaultLeader
+	for i := 0; i < NumberOfRounds; i++ {
 		time.Sleep(1 * time.Second)
 		for _, element := range e.otherPlayersChannels {
 			starts := e.ch.GetStartMsg()
@@ -85,11 +96,10 @@ func (e Player) LeaderAlgo(alfa int, beta int, resultStr *r.ResultStrings) int {
 				otherRound := element.GetRound()
 				currentRound := e.ch.GetRound()
 				if currentRound > otherRound {
-					e.sendMessage(element, "START")
+					e.sendMessage(element, StartMsg)
 					// Add message to the result object
-					resultStr.AddMessage(fmt.Sprintf("%s,%s,START", strconv.Itoa(e.GetNumber()), strconv.Itoa(element.GetID())))
+					resultStr.AddMessage(fmt.Sprintf("%s,%s,%s", strconv.Itoa(e.GetNumber()), strconv.Itoa(element.GetID()), StartMsg))
 				} else {
-
 					if currentRound < otherRound {
 						e.startRound(otherRound, e.GetNumberOfNodes(), resultStr)
 						e.ch.SetRound(otherRound)
@@ -104,11 +114,11 @@ func (e Player) LeaderAlgo(alfa int, beta int, resultStr *r.ResultStrings) int {
 				e.startRound(e.ch.GetRound()+1, e.GetNumberOfNodes(), resultStr)
 				e.ch.SetRound(e.ch.GetRound() + 1)
 			} else {
-				return -1
+				return DefaultLeader
 			}
 		}
 		if e.GetNumber() == (e.ch.GetRound() % e.GetNumberOfNodes()) {
-			e.SendMessagesToAllPlayers("ALIVE", resultStr)
+			e.SendMessagesToAllPlayers(AliveMsg, resultStr)
 		}
 		Leader = (e.ch.GetRound() % e.GetNumberOfNodes())
 	}
@@ -125,7 +135,7 @@ func (e Player) startRound(s int, len int, resultStr *r.ResultStrings) {
 		element := e.allChan[i]
 		e.sendMessage(element, "START")
 		// Add message to the result object
-		resultStr.AddMessage(fmt.Sprintf("%s,%s,START", strconv.Itoa(e.GetNumber()), strconv.Itoa(element.GetID())))
+		resultStr.AddMessage(fmt.Sprintf("%s,%s,%s", strconv.Itoa(e.GetNumber()), strconv.Itoa(element.GetID()), StartMsg))
 	}
 
 }
