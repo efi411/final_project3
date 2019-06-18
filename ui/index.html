@@ -15,7 +15,6 @@
 <body>
 
     <div class="main">
-
         <div class="container">
             <div class="booking-content">
                 <div class="booking-image">
@@ -24,41 +23,48 @@
                 <div class="booking-form">
                     <form name="algoForm" id="booking-form" onsubmit="loadRequestForAlgorithm(processRequest)">
                         <h1>Robust Stabilizing Leader Election</h1>
-                        <div class="form-group">
-                            <div class="select-list">
-                                <select name="food" id="food" required>
-                                    <option value="">Crashes</option>
-                                    <option value="no">There is a crash</option>
-                                    <option value="yes" >There is no crash</option>
-                                </select>
+                        <div class=players>
+                            <div class="form-radio">
+                                <label class="label-radio"> Select The number of players</label>
+                                <div class="radio-item-list">
+                                    <span class="radio-item player">
+                                        <input type="radio" name="number_people" value="5" id="number_people_5"/>
+                                        <label for="number_people_5">5</label>
+                                    </span>
+                                    <span class="radio-item player active">
+                                        <input type="radio" name="number_people" value="10" id="number_people_10" checked="checked"/>
+                                        <label for="number_people_10">10</label>
+                                    </span>
+                                    <span class="radio-item player">
+                                        <input type="radio" name="number_people" value="15" id="number_people_15"/>
+                                        <label for="number_people_15">15</label>
+                                    </span>
+                                    <span class="radio-item player">
+                                        <input type="radio" name="number_people" value="20" id="number_people_20"/>
+                                        <label for="number_people_20">20</label>
+                                    </span>
+                                    <span class="radio-item player">
+                                        <input type="radio" name="number_people" value="25" id="number_people_25"/>
+                                        <label for="number_people_25">25</label>
+                                    </span>
+                                </div>
                             </div>
                         </div>
-                        <div class="form-radio">
-                            <label class="label-radio"> Select The number of players</label>
-                            <div class="radio-item-list">
-                                <span class="radio-item">
-                                    <input type="radio" name="number_people" value="5" id="number_people_5"/>
-                                    <label for="number_people_5">5</label>
-                                </span>
-                                <span class="radio-item active">
-                                    <input type="radio" name="number_people" value="10" id="number_people_10" checked="checked"/>
-                                    <label for="number_people_10">10</label>
-                                </span>
-                                <span class="radio-item">
-                                    <input type="radio" name="number_people" value="15" id="number_people_15"/>
-                                    <label for="number_people_15">15</label>
-                                </span>
-                                <span class="radio-item">
-                                    <input type="radio" name="number_people" value="20" id="number_people_20"/>
-                                    <label for="number_people_20">20</label>
-                                </span>
-                                <span class="radio-item">
-                                    <input type="radio" name="number_people" value="25" id="number_people_25"/>
-                                    <label for="number_people_25">25</label>
-                                </span>
+                        <div class=crashes>
+                            <div class="form-radio">
+                                <label class="label-radio crash"> Select if you want to have a crash or not</label>
+                                <div class="radio-item-list">
+                                    <span class="radio-item">
+                                        <input type="radio" name="crash" value="0" id="crash_0"/>
+                                        <label for="crash_0">no</label>
+                                    </span>
+                                    <span class="radio-item crash active2">
+                                        <input type="radio" name="crash" value="1" id="crash_1" checked="checked"/>
+                                        <label for="crash_1">yes</label>
+                                    </span>
+                                </div>
                             </div>
                         </div>
-
                         <div class="form-submit">
                             <input type="submit" value="Find the leader" class="submit" id="submit" name="submit" />
                         </div>
@@ -74,6 +80,13 @@
         var numOfPlayers = 10
         
         function loadRequestForAlgorithm(callback) {
+            
+            //Get the value of number of players
+            var formResults = $('#booking-form').serialize();
+            var splitedResults = formResults.split("&");
+            var numOfPlayers = splitedResults[0].split("=")[1];
+            var crashes = splitedResults[1].split("=")[1];
+            
             //Send a request to the Server (GO)
             var request = new XMLHttpRequest();
 
@@ -82,8 +95,8 @@
                   callback(request.response);
                 }
             }
-
-            request.open('GET', "//localhost:8080/project/", true);
+            
+            request.open('GET', "//localhost:8080/project/?numOfPlayers="+numOfPlayers+"&crashes="+crashes, true);
             request.setRequestHeader("Content-Type", "text/plain;charset=UTF-8");
             request.send('');
         }
@@ -92,21 +105,12 @@
             console.info("Handling the respons...");
             if (response.length > 0) {
                 localStorage.setItem("algoResults", response);
-                localStorage.setItem("crash", crash);
-                localStorage.setItem("numOfPlayers", numOfPlayers);
-                var formResults = $('#booking-form').serialize();
-                var splitedResults = formResults.split("=");
-                numOfPlayers = splitedResults[1]
                 window.location.pathname = "algorithmPage.html";
             } else {
                 alert("Error: There is no response")
                 console.error("There is no response");
             }
         }
-        
-//        function crashes(theCrash) {
-//            crash = theCrash;
-//        }
     </script>
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="js/main.js"></script>

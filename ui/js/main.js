@@ -2,10 +2,16 @@
     // USE STRICT
     "use strict";
 
-    $(".form-radio .radio-item").click(function(){
+    $(".players .form-radio .radio-item").click(function(){
         //Spot switcher:
         $(this).parent().find(".radio-item").removeClass("active");
         $(this).addClass("active");
+    });
+    
+    $(".crashes .form-radio .radio-item").click(function(){
+        //Spot switcher:
+        $(this).parent().find(".radio-item").removeClass("active2");
+        $(this).addClass("active2");
     });
   
     $('#time').parent().append('<ul class="list-item" id="newtime" name="time"></ul>');

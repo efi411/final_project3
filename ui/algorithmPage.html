@@ -21,30 +21,59 @@
         
         function DisplayResults() {
             var response = localStorage.getItem("algoResults")
-//            alert(response)
+            
             //Split the response
             var splitedResponse = response.split(":");
             var leader = splitedResponse[0];
             var PlayersMsgs = splitedResponse[1];
             var splitedPlayersMsgs = PlayersMsgs.split("-");
+            
+            //Create a P element for the results
+            var para = document.createElement("P");
+            para.classList.add("resultsMsgs");
+            para.innerText = "";
+            document.body.appendChild(para);
+            
+            
             //Print the players messages
-            printPlayersMsgs(splitedPlayersMsgs, 0);
+            printPlayersMsgs(splitedPlayersMsgs, 0, para, leader);
         }
 
-        function printPlayersMsgs(splitedPlayersMsgs, i) {
-            var para = document.createElement("P");
-            para.innerText = formatPlayersMsgs(splitedPlayersMsgs[i]);
-            document.body.appendChild(para); 
+        function printPlayersMsgs(splitedPlayersMsgs, i, para, leader) {
+            var messageText = formatPlayersMsgs(splitedPlayersMsgs[i]);
+            para.innerText = para.innerText + "###" + messageText;
+            
+            //Add all the messages to the P element, one by one
             if (++i < splitedPlayersMsgs.length) {
                 setTimeout(function() {
-                    printPlayersMsgs(splitedPlayersMsgs, i);
-                }, 1000)
+                    printPlayersMsgs(splitedPlayersMsgs, i, para, leader);
+                }, 30)
+            } else {
+                //Add two Enters
+                //Create a P element for the results
+                var sapce1 = document.createElement("P");
+                sapce1.classList.add("resultsLeader");
+                sapce1.innerText = " ";
+                document.body.appendChild(sapce1);
+                var sapce2 = document.createElement("P");
+                sapce2.classList.add("resultsLeader");
+                sapce2.innerText = " ";
+                document.body.appendChild(sapce2);
+                
+                //Add leader button
+                var seeLeader = document.createElement("BUTTON");
+                seeLeader.innerHTML = "Leader"
+                document.body.appendChild(seeLeader);
+                seeLeader.onclick = function(){
+                    localStorage.setItem("leader", leader);
+                    window.location.pathname = "leaderPresentation.html";
+                };
             }
         }
 
         function formatPlayersMsgs (msg) {
             var splittesMsg = msg.split(",");
-            return "Player " + splittesMsg[0] + " sent " + splittesMsg[2] + " to player " + splittesMsg[1]
+            return "Player " + splittesMsg[0] + " sent " + splittesMsg[2] + " to player " + splittesMsg[1];
         }
     </script>
 </body>

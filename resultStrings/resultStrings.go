@@ -17,6 +17,8 @@ func NewResultString() ResultStrings {
 	}
 }
 
+//-----------Public functions-----------
+
 func (r *ResultStrings) GetResultString() (string, string) {
 	if len(r.result) > 0 && len(r.leader) > 0 {
 		return r.result[:len(r.result)-1], r.leader[:len(r.leader)-1]

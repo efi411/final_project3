@@ -6,14 +6,17 @@ import (
 	"github.com/gin-contrib/cors"
 	"math/rand"
 	"net/http"
+	"strconv"
 	"strings"
 	"time"
 
+	p "final_project3/preRunResults"
 	r "final_project3/resultStrings"
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
+
 	r := gin.Default()
 
 	// Use cors for go server (Cross-Origin Resource Sharing)
@@ -26,9 +29,23 @@ func main() {
 }
 
 func handleRequest(c *gin.Context) {
+	//Save the pre run results for the algorithm
+	preRunResults := p.NewPreRunResults()
+
+	//Get num of players
+	numOfPlayers, _ := c.Request.URL.Query()["numOfPlayers"]
+	num := numOfPlayers[0]
+	numOfPlayersInt, _ := strconv.Atoi(num)
+	//Get crashes status
+	crashes, _ := c.Request.URL.Query()["crashes"]
+	crash := crashes[0]
+	crashInt, _ := strconv.Atoi(crash)
+
+	resultsForUi := preRunResults.GetFullResults(numOfPlayersInt, crashInt)
 	c.Writer.WriteHeader(http.StatusOK)
-	c.Writer.WriteString("3:2,3,Alive-4,2,Alive-5,1,Start-4,5,Alive-4,3,Start-4,1,Start-2,3,Alive-3,2,Start-1,3,Alive")
+	c.Writer.WriteString(resultsForUi)
 }
+
 
 func runAlgorithmAndGetResults(numOfPlayers int, crash int) string {
 	leader, results := runScenario(numOfPlayers, crash)

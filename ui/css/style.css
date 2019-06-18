@@ -197,8 +197,16 @@ body {
   font-family: Poppins;
   margin: 0px; }
 
+.resultsMsgs {
+  color: black;
+  font-size: 15px; }
+
+.resultsLeader {
+  color: black;
+  font-size: 100px; }
+
 .main {
-  padding: 115px 0;
+  padding: 50px 0;
   position: relative; }
 
 .container {
@@ -306,6 +314,33 @@ body {
     color: #222;
     font-weight: bold; }
   .active input + label {
+    margin-right: 59px; }
+
+.active2 {
+  position: relative;
+  background: #edb77d;
+  padding: 14px 1px;
+  margin-right: 7px;
+  margin-left: 3px;
+  border-radius: 24px;
+  -moz-border-radius: 24px;
+  -webkit-border-radius: 24px;
+  -o-border-radius: 24px;
+  -ms-border-radius: 24px; }
+  .active2:after {
+    position: absolute;
+    content: 'Crash';
+    right: 17px;
+    top: 50%;
+    transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    font-size: 11px;
+    color: #222;
+    font-weight: bold; }
+  .active2 input + label {
     margin-right: 59px; }
 
 form {
