@@ -26,6 +26,8 @@ func main() {
 	projectAPI.GET("/", handleRequest)
 
 	r.Run()
+
+	//fmt.Printf("The number of messages with 100 players and no crash is: %d", RunAlgoAndGetNumberOfMessages(100, 0))
 }
 
 func handleRequest(c *gin.Context) {
@@ -47,13 +49,29 @@ func handleRequest(c *gin.Context) {
 }
 
 
-func runAlgorithmAndGetResults(numOfPlayers int, crash int) string {
-	leader, results := runScenario(numOfPlayers, crash)
+func RunAlgorithmAndGetResults(numOfPlayers int, crash int) string {
+	leader, results := RunScenario(numOfPlayers, crash)
 	stringToClient := fmt.Sprintf("The leader is: %s\nMessages: %s", leader, results)
 	return stringToClient
 }
 
-func runScenario(numOfPlayers int, crash int) (string, string){
+func RunAlgoAndCalcExecTime(numOfPlayers int, crash int) (time.Duration, string, string) {
+	start := time.Now()
+
+	leader, results := RunScenario(numOfPlayers, crash)
+
+	elapsed := time.Since(start)
+	//log.Printf("Algorithm execution for %d players took %s", numOfPlayers, elapsed)
+	return elapsed, leader, results
+}
+
+func RunAlgoAndGetNumberOfMessages(numOfPlayers int, crash int) int {
+	_, results := RunScenario(numOfPlayers, crash)
+	numberOfMessagesSlice := strings.Split(results, "-")
+	return len(numberOfMessagesSlice)
+}
+
+func RunScenario(numOfPlayers int, crash int) (string, string){
 	//Create unique seed for this program - different random numbers every time
 	rand.Seed(time.Now().UnixNano())
 
