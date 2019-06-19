@@ -33,7 +33,7 @@ func GetInstance() *Manager {
 //StartGame - Starts the game
 func (m Manager) StartGame(numOfPlayers int, crash int, resStr *r.ResultStrings) error {
 
-	m.printToConsole("-----------Starting game-----------")
+	m.printToConsole("--------Starting game--------")
 	m.printToConsole("Adding players...")
 	//Create channels
 	for i := 0; i < numOfPlayers; i++ {
@@ -59,7 +59,7 @@ func (m Manager) StartGame(numOfPlayers int, crash int, resStr *r.ResultStrings)
 	}
 	wg.Wait()
 
-	m.printToConsole("-----------Exiting game-----------")
+	m.printToConsole("--------Exiting game--------")
 	return nil
 }
 

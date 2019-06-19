@@ -27,7 +27,6 @@ func main() {
 
 	r.Run()
 
-	//fmt.Printf("The number of messages with 100 players and no crash is: %d", RunAlgoAndGetNumberOfMessages(100, 0))
 }
 
 func handleRequest(c *gin.Context) {
