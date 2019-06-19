@@ -12,17 +12,15 @@ type Channel struct {
 	round    int
 }
 
-//ChannelsProbNotGoodErrMsg - Error message
-const ChannelsProbNotGoodErrMsg = "the channel or the round is invalid"
-
-//MessageLostErrMsg - Error message
-const MessageLostErrMsg = "The message got lost in the way"
+//ChannelErrMsg - Error message
+const ChannelErrMsg = "the id or the round is invalid"
 
 //New - Channel constructor
 func New(id int, startMsg []int, aliveMsg []int,
 	round int) (Channel, error) {
+	//Checking the validation of the channel
 	if id < 0 || round < 0 {
-		return Channel{}, fmt.Errorf("%s", ChannelsProbNotGoodErrMsg)
+		return Channel{}, fmt.Errorf("%s", ChannelErrMsg)
 	}
 	c := Channel{id, startMsg, aliveMsg, round}
 	return c, nil
@@ -30,7 +28,7 @@ func New(id int, startMsg []int, aliveMsg []int,
 
 //-----------Public functions-----------
 
-//GetRound - return the channel of the user
+//GetRound - return the current channel-player round
 func (c Channel) GetRound() int {
 	return c.round
 }
@@ -40,7 +38,7 @@ func (c Channel) GetID() int {
 	return c.id
 }
 
-//SetRound - setting channel round
+//SetRound - setting current channel-player round
 func (c *Channel) SetRound(i int) {
 	c.round = i
 }
@@ -57,6 +55,7 @@ func (c Channel) GetAliveMsg() []int {
 
 //InsertMessage - insert the start or alive message to array
 func (c Channel) InsertMessage(msg string, fromCh int) {
+	//Check the type of the message and add in the sender id index
 	if msg == "ALIVE" {
 		c.aliveMsg[fromCh] = 1
 	} else {
