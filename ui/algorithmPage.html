@@ -19,10 +19,11 @@
     <script>
         DisplayResults();
         
+        //Display the results on the screen using printPlayersMsgs function
         function DisplayResults() {
             var response = localStorage.getItem("algoResults")
             
-            //Split the response
+            //Split the response (Parsing phase)
             var splitedResponse = response.split(":");
             var leader = splitedResponse[0];
             var PlayersMsgs = splitedResponse[1];
@@ -39,6 +40,7 @@
             printPlayersMsgs(splitedPlayersMsgs, 0, para, leader);
         }
 
+        //Prints the players messages on the screen
         function printPlayersMsgs(splitedPlayersMsgs, i, para, leader) {
             var messageText = formatPlayersMsgs(splitedPlayersMsgs[i]);
             para.innerText = para.innerText + "###" + messageText;
@@ -50,7 +52,6 @@
                 }, 30)
             } else {
                 //Add two Enters
-                //Create a P element for the results
                 var sapce1 = document.createElement("P");
                 sapce1.classList.add("resultsLeader");
                 sapce1.innerText = " ";
@@ -71,6 +72,7 @@
             }
         }
 
+        //Returns the results formatting
         function formatPlayersMsgs (msg) {
             var splittesMsg = msg.split(",");
             return "Player " + splittesMsg[0] + " sent " + splittesMsg[2] + " to player " + splittesMsg[1];

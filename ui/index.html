@@ -90,20 +90,24 @@
             //Send a request to the Server (GO)
             var request = new XMLHttpRequest();
 
+            //Prepare handling the request when it's ready
             request.onreadystatechange = function() {
                 if (request.readyState == 4 && request.status == 200) {
                   callback(request.response);
                 }
             }
             
+            //Open and send a new requst with two parameters: number of players and crash (yes/no)
             request.open('GET', "//localhost:8080/project/?numOfPlayers="+numOfPlayers+"&crashes="+crashes, true);
             request.setRequestHeader("Content-Type", "text/plain;charset=UTF-8");
             request.send('');
         }
 
+        //Processing the response coming from the server
         function processRequest(response) {
             console.info("Handling the respons...");
             if (response.length > 0) {
+                //Save the results on the local storage and go to the results page
                 localStorage.setItem("algoResults", response);
                 window.location.pathname = "algorithmPage.html";
             } else {
