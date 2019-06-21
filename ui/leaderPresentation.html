@@ -15,13 +15,14 @@
 <body>
     <script>
         //Create a P element for the Leader
-        var lead = document.createElement("P");
+        var lead = document.createElement("h1");
         lead.classList.add("resultsLeader");
         lead.innerText = "The leader is: " + localStorage.getItem("leader");
         document.body.appendChild(lead);
         
         //Add leader button
         var main = document.createElement("BUTTON");
+        main.classList.add("submit");
         main.innerHTML = "Back to the main screen"
         document.body.appendChild(main);
         main.onclick = function(){
