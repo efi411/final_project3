@@ -87,6 +87,14 @@
             var numOfPlayers = splitedResults[0].split("=")[1];
             var crashes = splitedResults[1].split("=")[1];
             
+            var names =["Landon","Keenan","Frank","Eric","Cole","Walton","Trenton","Lincoln","Ward","Norris","Duncan","Logan","Ray","Carmine","Luther","Alberto","Frankie","Josef","Barry","Gaston","Norman","Renaldo","Sydney","William","Vincenzo","Noe","Roger","Young","Clemente","Lewis"]
+            
+            shuffle(names)
+            
+            names = names.slice(0, numOfPlayers)
+            
+//            alert(names)
+            
             //Send a request to the Server (GO)
             var request = new XMLHttpRequest();
 
@@ -114,6 +122,18 @@
                 alert("Error: There is no response")
                 console.error("There is no response");
             }
+        }
+        
+        //Suffle list
+        function shuffle(a) {
+            var j, x, i;
+            for (i = a.length - 1; i > 0; i--) {
+                j = Math.floor(Math.random() * (i + 1));
+                x = a[i];
+                a[i] = a[j];
+                a[j] = x;
+            }
+            return a;
         }
     </script>
     <script src="vendor/jquery/jquery.min.js"></script>

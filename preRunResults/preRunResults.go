@@ -57,6 +57,12 @@ func (p *PreRunResults) getPreResultsLeader(i int, crash int) string {
 		return p.results5["leader"]
 	case 10:
 		return p.results10["leader"]
+	case 15:
+		return p.results15["leader"]
+	case 20:
+		return p.results20["leader"]
+	case 25:
+		return p.results25["leader"]
 	}
 	return "error (GetPreResultsLeader)"
 }
@@ -74,6 +80,24 @@ func (p *PreRunResults) getPreResultsMessages(i int, crash int) string {
 			return p.results10["results"]
 		} else {
 			return p.results10["crashResults"]
+		}
+	case 15:
+		if crash == 0 {
+			return p.results15["results"]
+		} else {
+			return p.results15["crashResults"]
+		}
+	case 20:
+		if crash == 0 {
+			return p.results20["results"]
+		} else {
+			return p.results20["crashResults"]
+		}
+	case 25:
+		if crash == 0 {
+			return p.results25["results"]
+		} else {
+			return p.results25["crashResults"]
 		}
 	}
 	return "error (GetPreResultsMessages)"
