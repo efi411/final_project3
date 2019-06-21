@@ -98,7 +98,7 @@
             }
             
             //Open and send a new requst with two parameters: number of players and crash (yes/no)
-            request.open('GET', "//localhost:8080/project/?numOfPlayers="+numOfPlayers+"&crashes="+crashes, true);
+            request.open('GET', "//localhost:8000/project/?numOfPlayers="+numOfPlayers+"&crashes="+crashes, true);
             request.setRequestHeader("Content-Type", "text/plain;charset=UTF-8");
             request.send('');
         }

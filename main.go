@@ -25,7 +25,7 @@ func main() {
 	projectAPI := r.Group("/project")
 	projectAPI.GET("/", handleRequest)
 
-	r.Run()
+	r.Run((":8000"))
 
 }
 
