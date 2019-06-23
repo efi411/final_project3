@@ -76,8 +76,11 @@
 
     <!-- JS -->
     <script>
-        var crash = "no"
-        var numOfPlayers = 10
+        
+        //Create the names of the players
+        var names =["Landon","Keenan","Frank","Eric","Cole","Walton","Trenton","Lincoln","Ward","Norris","Duncan","Logan","Ray","Carmine","Luther","Alberto","Frankie","Josef","Barry","Gaston","Norman","Renaldo","Sydney","William","Vincenzo","Noe","Roger","Young","Clemente","Lewis"]
+            
+        shuffle(names)
         
         function loadRequestForAlgorithm(callback) {
             
@@ -87,13 +90,11 @@
             var numOfPlayers = splitedResults[0].split("=")[1];
             var crashes = splitedResults[1].split("=")[1];
             
-            var names =["Landon","Keenan","Frank","Eric","Cole","Walton","Trenton","Lincoln","Ward","Norris","Duncan","Logan","Ray","Carmine","Luther","Alberto","Frankie","Josef","Barry","Gaston","Norman","Renaldo","Sydney","William","Vincenzo","Noe","Roger","Young","Clemente","Lewis"]
-            
-            shuffle(names)
-            
+            //Slice only the number of players
             names = names.slice(0, numOfPlayers)
-            
-//            alert(names)
+            //Save the names and the number of players slice in the local storage
+            localStorage.setItem("numOfPlayers", numOfPlayers);
+            localStorage.setItem("names", names);
             
             //Send a request to the Server (GO)
             var request = new XMLHttpRequest();

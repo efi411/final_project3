@@ -200,7 +200,14 @@ body {
 
 .resultsMsgs {
   color: black;
-  font-size: 8px; }
+  font-size: 10px; }
+
+.playersPresentation {
+  color: black;
+  font-size: 15px;
+  padding-left: 10px;
+  border: 1px solid black;
+  border-radius: 5px; }
 
 .resultsLeader {
   color: black;

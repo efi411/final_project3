@@ -21,13 +21,34 @@
         
         //Display the results on the screen using printPlayersMsgs function
         function DisplayResults() {
+            
+            var players = localStorage.getItem("names")
+            var splitedPlayers = players.split(",");
             var response = localStorage.getItem("algoResults")
+            var numOfPlayers = localStorage.getItem("numOfPlayers")
             
             //Split the response (Parsing phase)
             var splitedResponse = response.split(":");
             var leader = splitedResponse[0];
+            var intLeader = parseInt(leader);
+            leader = leader.replace(leader, splitedPlayers[intLeader]);
             var PlayersMsgs = splitedResponse[1];
+            
+            //Split all the players messages (parse by '-')
             var splitedPlayersMsgs = PlayersMsgs.split("-");
+            
+            //Replace numbers with strings in the results
+            for (i = 0; i < splitedPlayersMsgs.length; i++) {
+                for (j = numOfPlayers - 1; j >= 0 ; j--) {
+                    var stringIndex = j.toString();
+                    splitedPlayersMsgs[i] = splitedPlayersMsgs[i].replace(stringIndex, splitedPlayers[j]);
+                }
+            }
+            //Create a P element for the players list
+            var playersListP = document.createElement("P");
+            playersListP.classList.add("playersPresentation");
+            playersListP.innerText = "The players are: " + shuffle(splitedPlayers) + "  ";
+            document.body.appendChild(playersListP);
             
             //Create a P element for the results
             var para = document.createElement("P");
@@ -76,7 +97,21 @@
         //Returns the results formatting
         function formatPlayersMsgs (msg) {
             var splittesMsg = msg.split(",");
-            return "Player " + splittesMsg[0] + " sent " + splittesMsg[2] + " to player " + splittesMsg[1];
+            return  splittesMsg[0] + " sent " + splittesMsg[2] + " to " + splittesMsg[1];
+        }
+        
+        
+        
+        //Suffle list
+        function shuffle(a) {
+            var j, x, i;
+            for (i = a.length - 1; i > 0; i--) {
+                j = Math.floor(Math.random() * (i + 1));
+                x = a[i];
+                a[i] = a[j];
+                a[j] = x;
+            }
+            return a;
         }
     </script>
 </body>
