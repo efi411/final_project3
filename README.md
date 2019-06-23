@@ -17,10 +17,11 @@ In order to use this library and run the leader election algorithm, follow these
 2. Install all the dependencies of the library: Run go get github.com/efi411/final_project3/<br>
 3. Run the algorithm: Open ui/index.html file -> Choose if you want to have a crash or not and the number of palyers in the current run and click on "Find the leader". The results will appear on the screen.<br>
 
-
+Build&run server:<br>
+go run main.go<br>
 Code testing:<br>
 go test ./...<br>
 Coverage flag:<br>
--cover
+-cover<br>
 
 Owners: Efrat Tsadok and Shira Mandelbaum
